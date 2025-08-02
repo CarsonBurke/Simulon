@@ -8,6 +8,8 @@ version = "0.1.0"
 dependencies = [
  "bevy",
  "hexx",
+ "lazy_static",
+ "libnoise",
  "rand 0.9.2",
 ]
 
@@ -2541,6 +2543,15 @@ dependencies = [
 
 [[package]]
 name = "itertools"
+version = "0.10.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
@@ -2689,6 +2700,18 @@ name = "libm"
 version = "0.2.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f9fbbcab51052fe104eb5e5d351cf728d30a5be1fe14d9be8a3b097481fb97de"
+
+[[package]]
+name = "libnoise"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4758b25879505e9840bfa023fda84af2bcc9bb9fe0c2d973c0098441584fea83"
+dependencies = [
+ "itertools 0.10.5",
+ "num-traits",
+ "rand 0.8.5",
+ "rand_chacha 0.3.1",
+]
 
 [[package]]
 name = "libredox"

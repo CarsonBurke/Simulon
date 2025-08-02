@@ -6,6 +6,8 @@ use crate::{
 };
 
 pub mod tiles;
+pub mod creatures;
+pub mod terrain;
 
 pub struct InitPlugin;
 

@@ -9,3 +9,9 @@ pub const HEX_LAYOUT: HexLayout = HexLayout {
     origin: Vec2::new(0., 0.),
 };
 pub const MAP_RADIUS: u32 = 100;
+
+pub mod resource_noise_tresholds {
+    pub const MOUNTAIN: (f64, f64) = (0.15, 1.);
+    pub const GRASS: (f64, f64) = (0.0, 0.15);
+    pub const WATER: (f64, f64) = (-1., -0.60);
+}

@@ -1,6 +1,5 @@
 use crate::{
-    constants::map::{CHUNK_SIZE, HEX_LAYOUT, MAP_RADIUS},
-    resources::chunk::{Chunk, Chunks},
+    components::Tile, constants::map::{CHUNK_SIZE, HEX_LAYOUT, MAP_RADIUS}, resources::chunk::{Chunk, Chunks}
 };
 use bevy::{
     prelude::*,
@@ -40,6 +39,9 @@ pub fn generate_tiles(
     ];
 
     for hex in shapes::hexagon(hex(0, 0), MAP_RADIUS) {
+        
+        commands.spawn(Tile::new(hex));
+        
         if chunks.get_with_hex(&hex).is_some() {
             println!("skipping existing chunk for hex {}, {}", hex.x, hex.y);
             continue;

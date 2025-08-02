@@ -1,0 +1,1 @@
+pub const MAX_MATURITY: f32 = 100.0;
