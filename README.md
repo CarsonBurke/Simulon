@@ -1,2 +1,2 @@
 # Simulon
-An CA-like economy, business, and nation simulator. Built with Bevy and Rust.
+A CA-like economy, business, and nation simulator. Built with Bevy and Rust.
