@@ -12,7 +12,7 @@ fn main() {
     println!("Hello, world!");
     
     App::new()
-    .add_plugins((DefaultPlugins, InitPlugin, CameraControlsPlugin, CreaturePlugin))
+    .add_plugins((DefaultPlugins.set(ImagePlugin::default_nearest()), InitPlugin, CameraControlsPlugin, CreaturePlugin))
     // .add_systems(Startup, )
     .insert_resource::<GameSettings>(GameSettings::default())
     .insert_resource::<Chunks>(Chunks::default())
