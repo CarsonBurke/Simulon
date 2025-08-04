@@ -1,5 +1,5 @@
 use crate::{
-    components::Tile, constants::map::{CHUNK_SIZE, HEX_LAYOUT, MAP_RADIUS}, resources::chunk::{Chunk, Chunks}
+    components::Tile, constants::{map::{CHUNK_SIZE, HEX_LAYOUT, MAP_RADIUS}, z_layers}, resources::chunk::{Chunk, Chunks}
 };
 use bevy::{
     prelude::*,
@@ -15,7 +15,6 @@ use rand::random;
 
 pub const HEX_SIZE: Vec2 = Vec2::splat(64.0);
 const COLORS: [Color; 3] = [
-    /* Color::BLUE, Color::WHITE, Color::RED, */
     Color::srgba(60. / 255., 60. / 255., 60. / 255., 1.),
     Color::srgba(65. / 255., 65. / 255., 65. / 255., 1.),
     Color::srgba(55. / 255., 55. / 255., 55. / 255., 1.),
@@ -43,7 +42,6 @@ pub fn generate_tiles(
         commands.spawn(Tile::new(hex));
         
         if chunks.get_with_hex(&hex).is_some() {
-            println!("skipping existing chunk for hex {}, {}", hex.x, hex.y);
             continue;
         };
 
@@ -81,10 +79,10 @@ fn generate_chunk(
     )));
 
     // let handle = materials.add(ColorMaterial::from(COLORS[0]));
-
+    
     commands.spawn((
         Mesh2d(mesh_handle.clone()),
-        Transform::from_xyz(pos.x, pos.y, 0.0),
+        Transform::from_xyz(pos.x, pos.y, z_layers::BACKGROUND),
         MeshMaterial2d(material_handle),
     ));
 

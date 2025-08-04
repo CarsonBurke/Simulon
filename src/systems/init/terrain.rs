@@ -1,8 +1,13 @@
-use bevy::{prelude::*};
-use libnoise::prelude::*;
+use bevy::prelude::*;
+use hexx::{hex, shapes};
 use lazy_static::lazy_static;
+use libnoise::prelude::*;
 
-use crate::{components::{TerrainKind, Tile}, constants::map::resource_noise_tresholds};
+use crate::{
+    components::{TerrainKind, Tile},
+    constants::{map::{terrain_colors, terrain_type_noise_thresholds, HEX_LAYOUT, MAP_RADIUS}, z_layers},
+    systems::init::tiles::hexagonal_plane,
+};
 
 lazy_static! {
     pub static ref SIMPLEX_GENERATOR: Blend<2, Fbm<2, Simplex<2>>, Scale<2, Worley<2>>, Scale<2, Worley<2>>> = Source::simplex(43)                 // start with simplex noise
@@ -12,24 +17,56 @@ lazy_static! {
         Source::worley(44).scale([0.01, 0.01]));     // ...controlled by other worley noise
 }
 
-pub fn generate_terrain(tiles: Query<(&Tile, Entity)>, mut commands: Commands) {
-    for (tile, entity) in tiles.iter() {
-        
+pub fn generate_terrain(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<ColorMaterial>>,
+) {
+    let mesh = hexagonal_plane(&HEX_LAYOUT);
+    let mesh_handle = meshes.add(mesh);
+
+    let material_mountain = materials.add(ColorMaterial::from(terrain_colors::MOUNTAIN));
+    let material_grass = materials.add(ColorMaterial::from(terrain_colors::GRASS));
+    let material_water = materials.add(ColorMaterial::from(terrain_colors::WATER));
+
+    for hex in shapes::hexagon(hex(0, 0), MAP_RADIUS) {
         let noise = SIMPLEX_GENERATOR.sample([
-            tile.hex.x as f64,
-            tile.hex.y as f64, /* hex.x as f64, hex.y as f64 */
+            hex.x as f64,
+            hex.y as f64, /* hex.x as f64, hex.y as f64 */
         ]);
         
-        if noise > resource_noise_tresholds::WATER.0 && noise < resource_noise_tresholds::WATER.1 {
-            commands.entity(entity).insert(TerrainKind::Water);
+        let hex_world_pos = HEX_LAYOUT.hex_to_world_pos(hex);
+        let transform = Transform::from_xyz(hex_world_pos.x as f32, hex_world_pos.y as f32, z_layers::TERRAIN);
+
+        if noise > terrain_type_noise_thresholds::WATER.0
+            && noise < terrain_type_noise_thresholds::WATER.1
+        {
+            commands.spawn((
+                Mesh2d(mesh_handle.clone()),
+                MeshMaterial2d(material_water.clone()),
+                transform,
+                TerrainKind::Water,
+            ));
             continue;
         }
-        
-        if noise > resource_noise_tresholds::MOUNTAIN.0 && noise < resource_noise_tresholds::MOUNTAIN.1 {
-            commands.entity(entity).insert(TerrainKind::Mountain);
+
+        if noise > terrain_type_noise_thresholds::MOUNTAIN.0
+            && noise < terrain_type_noise_thresholds::MOUNTAIN.1
+        {
+            commands.spawn((
+                Mesh2d(mesh_handle.clone()),
+                MeshMaterial2d(material_mountain.clone()),
+                transform,
+                TerrainKind::Mountain,
+            ));
             continue;
         }
-        
-        commands.entity(entity).insert(TerrainKind::Grass);
+
+        commands.spawn((
+            Mesh2d(mesh_handle.clone()),
+            MeshMaterial2d(material_grass.clone()),
+            transform,
+            TerrainKind::Grass,
+        ));
     }
 }
