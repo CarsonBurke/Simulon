@@ -6,6 +6,7 @@ use crate::game_parts::plant::PlantKind;
 pub mod creature;
 pub mod human;
 pub mod company;
+pub mod building;
 
 #[derive(Component)]
 pub struct ScrollableCamera;

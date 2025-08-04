@@ -16,7 +16,23 @@ pub struct Human {
     pub money: f32,
     pub debt: f32,
     pub residence: Option<Residence>,
-    pub employableSkills: HashMap<EmployableSkill, f32>,
+    pub employable_skills: HashMap<EmployableSkill, f32>,
+}
+
+impl Human {
+    pub fn new() -> Self {
+        Self {
+            entity: Entity::from_raw(0),
+            last_name: String::new(),
+            first_name: String::new(),
+            employment: None,
+            school: None,
+            money: 0.0,
+            debt: 0.0,
+            residence: None,
+            employable_skills: HashMap::new(),
+        }
+    }
 }
 
 pub struct Residence {
