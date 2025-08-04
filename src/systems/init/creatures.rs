@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use hexx::{hex, shapes};
-use rand::Rng;
+use rand::{seq::{IndexedRandom}, Rng};
 
 use crate::{
     components::{
-        creature::{Creature, CreatureKind}, human::Human, Tile
+        creature::{Creature, CreatureKind}, human::{self, Human}, Tile
     },
     constants::{map::{HEX_LAYOUT, MAP_RADIUS}, z_layers},
     systems::creature,
@@ -17,7 +17,10 @@ pub fn spawn_creatures(
     let mut rng = rand::rng();
     let mut creatures = Vec::new();
 
-    let sprite_human = asset_server.load("sprites/person011.png");
+    let mut human_assets: Vec<Handle<Image>> = Vec::new();
+    for i in 1..=15 {
+        human_assets.push(asset_server.load(format!("humans/{}.png", i)));
+    }
 
     for hex in shapes::hexagon(hex(0, 0), MAP_RADIUS) {
         let creature_chance = rng.random_bool(0.05);
@@ -39,7 +42,7 @@ pub fn spawn_creatures(
         creatures.push((
             Creature::new(kind),
             species,
-            Sprite::from_image(sprite_human.clone()),
+            Sprite::from_image(human_assets.choose(&mut rng).unwrap().clone()),
             transform,
         ));
     }

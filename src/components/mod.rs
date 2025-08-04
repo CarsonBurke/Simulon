@@ -44,12 +44,35 @@ pub struct Plant {
     pub heritable: PlantHeritable,
 }
 
+impl Plant {
+    pub fn new(hex: Hex) -> Self {
+        Plant {
+            health: 100.0,
+            resource_amount: 0,
+            age: 0,
+            heritable: PlantHeritable::default(),
+        }
+    }
+}
+
 pub struct PlantHeritable {
     pub kind: PlantKind,
     pub growth_rate: f32,
     pub crop_yield: f32,
     pub temperature_resistance: f32,
     pub disease_resistance: f32,
+}
+
+impl Default for PlantHeritable {
+    fn default() -> Self {
+        PlantHeritable {
+            kind: PlantKind::Grass,
+            growth_rate: 0.1,
+            crop_yield: 0.5,
+            temperature_resistance: 0.5,
+            disease_resistance: 0.5,
+        }
+    }
 }
 
 impl PlantHeritable {

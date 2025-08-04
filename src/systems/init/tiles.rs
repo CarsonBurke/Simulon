@@ -92,7 +92,7 @@ fn generate_chunk(
 pub fn hexagonal_plane(hex_layout: &HexLayout) -> Mesh {
     let mesh_info = PlaneMeshBuilder::new(hex_layout)
         // < 1 creates borders around hexes
-        .with_scale(Vec3::splat(/*1. */ 0.95))
+        .with_scale(Vec3::splat(/*1. */ 0.98))
         .facing(Vec3::Z)
         .center_aligned()
         .build();
