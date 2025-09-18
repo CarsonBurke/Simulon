@@ -3,6 +3,7 @@ pub mod camera;
 pub mod creature;
 pub mod laws;
 pub mod building;
+pub mod human;
 
 pub mod z_layers {
     pub const BACKGROUND: f32 = -1.;

@@ -11,6 +11,7 @@ dependencies = [
  "lazy_static",
  "libnoise",
  "rand 0.9.2",
+ "uuid",
 ]
 
 [[package]]

@@ -1,9 +1,11 @@
 use hexx::Hex;
 use bevy::prelude::*;
+use uuid::Uuid;
 
 #[derive(Component)]
 pub struct Building {
     pub name: String,
+    pub company_id: Uuid,
     pub hex: Hex,
     pub stories: u32,
     pub slots_total: u32,
@@ -11,8 +13,8 @@ pub struct Building {
 }
 
 impl Building {
-    pub fn new(name: String, hex: Hex) -> Self {
-        Self { name, hex, stories: 1, slots_total: 10, used_slots: 0 }
+    pub fn new(name: String, company_id: Uuid, hex: Hex) -> Self {
+        Self { name, company_id, hex, stories: 1, slots_total: 10, used_slots: 0 }
     }
     
     pub fn remaining_slots(&self) -> u32 {

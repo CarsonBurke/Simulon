@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use bevy::prelude::*;
 use hexx::Hex;
 
+use crate::components::company::EmploymentPosition;
+
 #[derive(Component)]
 pub struct Human {
     pub entity: Entity,
@@ -16,7 +18,7 @@ pub struct Human {
     pub money: f32,
     pub debt: f32,
     pub residence: Option<Residence>,
-    pub employable_skills: HashMap<EmployableSkill, f32>,
+    pub employable_skills: HashMap<Employable, f32>,
 }
 
 impl Human {
@@ -32,6 +34,14 @@ impl Human {
             residence: None,
             employable_skills: HashMap::new(),
         }
+    }
+    
+    pub fn join_company(human: &mut Human, company_id: u32, position: EmploymentPosition) {
+        human.employment = Some(Employment {
+            company_id,
+            wage: position.starting_wage,
+            job: position.job,
+        });
     }
 }
 
@@ -49,6 +59,7 @@ impl Residence {
 pub struct Employment {
     pub company_id: u32,
     pub wage: u32,
+    pub job: Employable,
 }
 
 pub struct School {
@@ -81,10 +92,9 @@ pub enum SchoolProgram {
 
 pub enum SchoolFocus {
     General,
-    
 }
 
-pub enum EmployableSkill {
+pub enum Employable {
     Administration,
     Logistics,
     Finance,
@@ -94,5 +104,4 @@ pub enum EmployableSkill {
     ComputerScience,
     Carpentry,
     Metalworking,
-    
 }

@@ -7,6 +7,7 @@ pub mod creature;
 pub mod human;
 pub mod company;
 pub mod building;
+pub mod company_building;
 
 #[derive(Component)]
 pub struct ScrollableCamera;

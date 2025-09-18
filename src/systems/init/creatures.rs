@@ -40,7 +40,7 @@ pub fn spawn_creatures(
         transform.scale = Vec3::new(4.0, 4.0, 1.0);
         
         creatures.push((
-            Creature::new(kind),
+            Creature::new(hex, kind),
             species,
             Sprite::from_image(human_assets.choose(&mut rng).unwrap().clone()),
             transform,

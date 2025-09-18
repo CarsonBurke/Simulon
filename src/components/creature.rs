@@ -1,10 +1,12 @@
 use bevy::prelude::*;
+use hexx::Hex;
 use rand::Rng;
 
 use crate::constants::creature::heritable_initial_ranges;
 
 #[derive(Component)]
 pub struct Creature {
+    pub hex: Hex,
     pub health: f32,
     pub heritable: CreatureHeritable,
     pub age: u32,
@@ -16,9 +18,10 @@ pub struct Creature {
 }
 
 impl Creature {
-    pub fn new(kind: CreatureKind) -> Self {
+    pub fn new(hex: Hex, kind: CreatureKind) -> Self {
         let heritable = CreatureHeritable::new_random();
         Self {
+            hex,
             health: heritable.max_health,
             heritable,
             age: 0,
