@@ -4,10 +4,9 @@ use rand::{seq::{IndexedRandom}, Rng};
 
 use crate::{
     components::{
-        creature::{Creature, CreatureKind}, human::{self, Human}, Tile
+        creature::{Creature, CreatureKind}, human::Human
     },
     constants::{map::{HEX_LAYOUT, MAP_RADIUS}, z_layers},
-    systems::creature,
 };
 
 pub fn spawn_creatures(

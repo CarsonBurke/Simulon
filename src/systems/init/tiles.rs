@@ -2,16 +2,11 @@ use crate::{
     components::Tile, constants::{map::{CHUNK_SIZE, HEX_LAYOUT, MAP_RADIUS}, z_layers}, resources::chunk::{Chunk, Chunks}
 };
 use bevy::{
+    asset::RenderAssetUsages,
+    mesh::{Indices, PrimitiveTopology},
     prelude::*,
-    render::{
-        mesh::{Indices, PrimitiveTopology},
-        render_asset::RenderAssetUsages,
-        view::RenderLayers,
-    },
-    transform,
 };
-use hexx::{Hex, HexLayout, HexOrientation, PlaneMeshBuilder, hex, shapes};
-use rand::random;
+use hexx::{Hex, HexLayout, PlaneMeshBuilder, hex, shapes};
 
 pub const HEX_SIZE: Vec2 = Vec2::splat(64.0);
 const COLORS: [Color; 3] = [

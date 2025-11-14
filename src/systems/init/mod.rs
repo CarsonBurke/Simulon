@@ -20,7 +20,10 @@ impl Plugin for InitPlugin {
 
 pub fn spawn_cameras(mut commands: Commands, window: Single<&Window>) {
     commands.spawn((
-        Camera2d,
+        (Camera3d {
+            
+            ..default()
+        }, Transform::from_xyz(100., 100., 100.).looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y)),
         Camera { ..default()  },
         ScrollableCamera,
         MoveableCamera,

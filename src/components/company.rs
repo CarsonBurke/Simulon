@@ -4,7 +4,7 @@ use bevy::prelude::*;
 use hexx::Hex;
 use uuid::Uuid;
 
-use crate::components::{building::Building, company_building::CompanyBuilding, human::Employable};
+use crate::components::{company_building::CompanyBuilding, human::Employable};
 
 pub struct Company {
     pub name: String,

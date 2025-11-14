@@ -17,7 +17,7 @@ impl Plugin for CameraControlsPlugin {
 fn control_camera_zoom(
     mut cameras: Query<(&Camera, &mut Projection), With<ScrollableCamera>>,
     time: Res<Time>,
-    mut scroll_event_reader: EventReader<MouseWheel>,
+    mut scroll_event_reader: MessageReader<MouseWheel>,
 ) {
     let mut projection_delta = 0.;
 

@@ -2,7 +2,6 @@ use std::collections::HashMap;
 
 use bevy::{ecs::relationship::RelationshipSourceCollection, prelude::*};
 use hexx::Hex;
-use rand::distr::uniform::UniformUsize;
 use uuid::Uuid;
 
 use crate::components::company::EmploymentPosition;
