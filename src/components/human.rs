@@ -2,6 +2,8 @@ use std::collections::HashMap;
 
 use bevy::prelude::*;
 use hexx::Hex;
+use rand::distr::uniform::UniformUsize;
+use uuid::Uuid;
 
 use crate::components::company::EmploymentPosition;
 
@@ -36,8 +38,8 @@ impl Human {
         }
     }
     
-    pub fn join_company(human: &mut Human, company_id: u32, position: EmploymentPosition) {
-        human.employment = Some(Employment {
+    pub fn join_company(&mut self, company_id: Uuid, position: EmploymentPosition) {
+        self.employment = Some(Employment {
             company_id,
             wage: position.starting_wage,
             job: position.job,
@@ -56,12 +58,14 @@ impl Residence {
     }
 }
 
+#[derive(Clone)]
 pub struct Employment {
-    pub company_id: u32,
+    pub company_id: Uuid,
     pub wage: u32,
     pub job: Employable,
 }
 
+#[derive(Clone)]
 pub struct School {
     pub company: Entity,
     pub program: SchoolProgram,
@@ -76,6 +80,7 @@ pub struct School {
     pub daily_hours: u32,
 }
 
+#[derive(Clone, Copy)]
 pub enum SchoolProgram {
     Kindergarten,
     Elementary,
@@ -90,10 +95,12 @@ pub enum SchoolProgram {
     Postgraduate,
 }
 
+#[derive(Clone, Copy)]
 pub enum SchoolFocus {
     General,
 }
 
+#[derive(Clone, Copy)]
 pub enum Employable {
     Administration,
     Logistics,

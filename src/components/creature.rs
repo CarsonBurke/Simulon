@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use hexx::Hex;
 use rand::Rng;
 
-use crate::constants::creature::heritable_initial_ranges;
+use crate::{constants::creature::heritable_initial_ranges, systems::creature::state::CreatureState};
 
 #[derive(Component)]
 pub struct Creature {
@@ -15,6 +15,7 @@ pub struct Creature {
     pub intelligence: f32,
     pub charisma: f32,
     pub kind: CreatureKind,
+    pub state: CreatureState,
 }
 
 impl Creature {
@@ -30,6 +31,7 @@ impl Creature {
             intelligence: 0.0,
             charisma: 0.0,
             kind,
+            state: CreatureState::Idle,
         }
     }
 

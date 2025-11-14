@@ -11,7 +11,7 @@ pub struct Company {
     pub id: Uuid,
     pub executive: Entity,
     pub employees: Vec<Entity>,
-    pub positions: Vec<EmploymentPosition>,
+    pub global_positions: Vec<EmploymentPosition>,
     pub shareholders: HashMap<Uuid, Shareholder>,
     pub buildings: HashMap<Hex, CompanyBuilding>,
 }
@@ -34,7 +34,7 @@ impl Company {
             id: Uuid::new_v4(),
             executive,
             employees,
-            positions: Vec::new(),
+            global_positions: Vec::new(),
             shareholders,
             buildings: HashMap::new(),
         }
@@ -46,6 +46,7 @@ pub struct Shareholder {
     pub human: Entity,
 }
 
+#[derive(Clone)]
 pub struct EmploymentPosition {
     pub starting_wage: u32,
     pub job: Employable,

@@ -2,6 +2,8 @@ use bevy::prelude::*;
 
 use crate::{components::creature::Creature, constants::{self, creature::MAX_MATURITY}};
 
+pub mod state;
+
 pub struct CreaturePlugin;
 
 impl Plugin for CreaturePlugin {
