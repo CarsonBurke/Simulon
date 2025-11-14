@@ -1,10 +1,10 @@
-use bevy::prelude::*;
+use bevy::{pbr::StandardMaterial, prelude::*};
 use hexx::{hex, shapes};
 use lazy_static::lazy_static;
 use libnoise::prelude::*;
 
 use crate::{
-    components::{TerrainKind, Tile},
+    components::TerrainKind,
     constants::{map::{terrain_colors, terrain_type_noise_thresholds, HEX_LAYOUT, MAP_RADIUS}, z_layers},
     systems::init::tiles::hexagonal_plane,
 };
@@ -20,14 +20,14 @@ lazy_static! {
 pub fn generate_terrain(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let mesh = hexagonal_plane(&HEX_LAYOUT);
     let mesh_handle = meshes.add(mesh);
 
-    let material_mountain = materials.add(ColorMaterial::from(terrain_colors::MOUNTAIN));
-    let material_grass = materials.add(ColorMaterial::from(terrain_colors::GRASS));
-    let material_water = materials.add(ColorMaterial::from(terrain_colors::WATER));
+    let material_mountain = materials.add(StandardMaterial::from(terrain_colors::MOUNTAIN));
+    let material_grass = materials.add(StandardMaterial::from(terrain_colors::GRASS));
+    let material_water = materials.add(StandardMaterial::from(terrain_colors::WATER));
 
     for hex in shapes::hexagon(hex(0, 0), MAP_RADIUS) {
         let noise = SIMPLEX_GENERATOR.sample([
@@ -42,8 +42,8 @@ pub fn generate_terrain(
             && noise < terrain_type_noise_thresholds::WATER.1
         {
             commands.spawn((
-                Mesh2d(mesh_handle.clone()),
-                MeshMaterial2d(material_water.clone()),
+                Mesh3d(mesh_handle.clone()),
+                MeshMaterial3d(material_water.clone()),
                 transform,
                 TerrainKind::Water,
             ));
@@ -54,8 +54,8 @@ pub fn generate_terrain(
             && noise < terrain_type_noise_thresholds::MOUNTAIN.1
         {
             commands.spawn((
-                Mesh2d(mesh_handle.clone()),
-                MeshMaterial2d(material_mountain.clone()),
+                Mesh3d(mesh_handle.clone()),
+                MeshMaterial3d(material_mountain.clone()),
                 transform,
                 TerrainKind::Mountain,
             ));
@@ -63,8 +63,8 @@ pub fn generate_terrain(
         }
 
         commands.spawn((
-            Mesh2d(mesh_handle.clone()),
-            MeshMaterial2d(material_grass.clone()),
+            Mesh3d(mesh_handle.clone()),
+            MeshMaterial3d(material_grass.clone()),
             transform,
             TerrainKind::Grass,
         ));

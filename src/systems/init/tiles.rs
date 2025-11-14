@@ -4,11 +4,13 @@ use crate::{
 use bevy::{
     asset::RenderAssetUsages,
     mesh::{Indices, PrimitiveTopology},
+    pbr::StandardMaterial,
     prelude::*,
 };
-use hexx::{Hex, HexLayout, PlaneMeshBuilder, hex, shapes};
+use hexx::{ColumnMeshBuilder, Hex, HexLayout, PlaneMeshBuilder, hex, shapes};
 
 pub const HEX_SIZE: Vec2 = Vec2::splat(64.0);
+pub const COLUMN_HEIGHT: f32 = 10.0;
 const COLORS: [Color; 3] = [
     Color::srgba(60. / 255., 60. / 255., 60. / 255., 1.),
     Color::srgba(65. / 255., 65. / 255., 65. / 255., 1.),
@@ -18,7 +20,7 @@ const COLORS: [Color; 3] = [
 pub fn generate_tiles(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
     mut chunks: ResMut<Chunks>,
 ) {
     println!("generating tiles");
@@ -27,9 +29,9 @@ pub fn generate_tiles(
     let mesh_handle = meshes.add(mesh);
 
     let material_handles = [
-        materials.add(ColorMaterial::from(COLORS[0])),
-        materials.add(ColorMaterial::from(COLORS[1])),
-        materials.add(ColorMaterial::from(COLORS[2])),
+        materials.add(StandardMaterial::from(COLORS[0])),
+        materials.add(StandardMaterial::from(COLORS[1])),
+        materials.add(StandardMaterial::from(COLORS[2])),
     ];
 
     for hex in shapes::hexagon(hex(0, 0), MAP_RADIUS) {
@@ -60,34 +62,34 @@ fn generate_chunk(
     chunk_hex: Hex,
     hex: Hex,
     commands: &mut Commands,
-    material_handles: &[Handle<ColorMaterial>],
+    material_handles: &[Handle<StandardMaterial>],
     mesh_handle: &Handle<Mesh>,
-    materials: &mut ResMut<Assets<ColorMaterial>>,
+    materials: &mut ResMut<Assets<StandardMaterial>>,
     chunks: &mut ResMut<Chunks>
 ) {
     let pos = HEX_LAYOUT.hex_to_world_pos(hex);
     let color_index = (chunk_hex.x - chunk_hex.y).rem_euclid(3);
     let material_handle = material_handles[color_index as usize].clone();
     let offset = /* (50. + random::<f32>() * 3.) */55. / 255.;
-    let _material_handle = materials.add(ColorMaterial::from(Color::srgba(
+    let _material_handle = materials.add(StandardMaterial::from(Color::srgba(
         offset, offset, offset, 1.,
     )));
 
-    // let handle = materials.add(ColorMaterial::from(COLORS[0]));
-    
+    // let handle = materials.add(StandardMaterial::from(COLORS[0]));
+
     commands.spawn((
-        Mesh2d(mesh_handle.clone()),
-        Transform::from_xyz(pos.x, pos.y, z_layers::BACKGROUND),
-        MeshMaterial2d(material_handle),
+        Mesh3d(mesh_handle.clone()),
+        Transform::from_xyz(pos.x, pos.y, 0.0),
+        MeshMaterial3d(material_handle),
     ));
 
     chunks.0.insert(chunk_hex, Chunk::new(chunk_hex));
 }
 
 pub fn hexagonal_plane(hex_layout: &HexLayout) -> Mesh {
-    let mesh_info = PlaneMeshBuilder::new(hex_layout)
+    let mesh_info = ColumnMeshBuilder::new(hex_layout, COLUMN_HEIGHT)
         // < 1 creates borders around hexes
-        .with_scale(Vec3::splat(/*1. */ 0.98))
+        .with_scale(Vec3::splat(1.))
         .facing(Vec3::Z)
         .center_aligned()
         .build();
