@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use bevy::prelude::*;
+use bevy::{ecs::relationship::RelationshipSourceCollection, prelude::*};
 use hexx::Hex;
 use rand::distr::uniform::UniformUsize;
 use uuid::Uuid;
@@ -26,7 +26,7 @@ pub struct Human {
 impl Human {
     pub fn new() -> Self {
         Self {
-            entity: Entity::from_raw(0),
+            entity: Entity::new(),
             last_name: String::new(),
             first_name: String::new(),
             employment: None,

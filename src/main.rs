@@ -1,11 +1,12 @@
+use std::collections::HashMap;
+
 use bevy::prelude::*;
 
 use crate::{
-    resources::{GameSettings, chunk::Chunks},
-    systems::{
+    game_parts::Companies, resources::{GameSettings, chunk::Chunks}, systems::{
         controls::camera::CameraControlsPlugin, creature::CreaturePlugin, human::HumanPlugin,
         init::InitPlugin,
-    },
+    }
 };
 
 mod components;
@@ -28,5 +29,6 @@ fn main() {
         // .add_systems(Startup, )
         .insert_resource::<GameSettings>(GameSettings::default())
         .insert_resource::<Chunks>(Chunks::default())
+        .insert_resource::<Companies>(Companies(HashMap::new()))
         .run();
 }

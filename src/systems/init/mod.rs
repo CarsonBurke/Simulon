@@ -1,4 +1,4 @@
-use bevy::{prelude::*, render::camera::Viewport};
+use bevy::{prelude::*};
 
 use crate::{
     components::{MoveableCamera, ScrollableCamera},
